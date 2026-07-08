@@ -111,7 +111,11 @@ loader.load(
         scene.add(sLogo);
 
         statusText.innerHTML = "Klik Logo S untuk Masuk";
-
+        gsap.to("#corner-nav",{
+            opacity:1,
+            duration:1.5,
+            delay:0.5
+        });
         console.log("GLB Loaded");
 
     },
