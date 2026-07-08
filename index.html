@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S Architect - CSS 3D Portal</title>
+    <!-- Menghubungkan ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Area Klik Portal -->
+    <div class="scene" id="portal">
+        <div class="logo-3d">
+            <!-- Tumpukan layer SVG untuk menciptakan ketebalan fisik 3D -->
+            <div class="layer l1"><svg viewBox="0 0 100 150"><path d="M80,30 C80,10 20,10 20,45 C20,80 80,70 80,105 C80,140 20,140 20,120"/></svg></div>
+            <div class="layer l2"><svg viewBox="0 0 100 150"><path d="M80,30 C80,10 20,10 20,45 C20,80 80,70 80,105 C80,140 20,140 20,120"/></svg></div>
+            <div class="layer l3"><svg viewBox="0 0 100 150"><path d="M80,30 C80,10 20,10 20,45 C20,80 80,70 80,105 C80,140 20,140 20,120"/></svg></div>
+            <div class="layer l4"><svg viewBox="0 0 100 150"><path d="M80,30 C80,10 20,10 20,45 C20,80 80,70 80,105 C80,140 20,140 20,120"/></svg></div>
+            <div class="layer l5"><svg viewBox="0 0 100 150"><path d="M80,30 C80,10 20,10 20,45 C20,80 80,70 80,105 C80,140 20,140 20,120"/></svg></div>
+        </div>
+    </div>
+
+    <div class="instruction" id="text">Klik Logo S untuk Masuk</div>
+
+    <!-- Menghubungkan ke file JavaScript eksternal -->
+    <script src="script.js"></script>
+</body>
+</html>
