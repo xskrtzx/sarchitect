@@ -121,3 +121,10 @@ body, html {
     right:40px;
 
 }
+#corner-nav{
+
+    opacity:0;
+
+    transition:1.5s;
+
+}
