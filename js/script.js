@@ -253,8 +253,10 @@ if (trigger) {
         
         const tl = gsap.timeline({
             onComplete: () => {
+                // Mengubah latar belakang menjadi putih sesaat untuk efek flash portal
                 scene.background = new THREE.Color(0xf5f5f5);
-                alert("Selamat datang di S Architect");
+                // OTOMATIS BERPINDAH KE FILE PORTFOLIO.HTML
+                window.location.href = "portfolio.html";
             }
         });
         
