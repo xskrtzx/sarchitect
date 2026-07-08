@@ -1,37 +1,52 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S Architect - 3D File Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S Architect</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-    <!-- Three.js -->
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.179.1/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.179.1/examples/jsm/"
-      }
-    }
-    </script>
 </head>
+
 <body>
 
-    <div id="canvas-container"></div>
+<div class="grid"></div>
 
-    <div class="ui-layer">
-        <div id="portal-trigger"></div>
-        <div class="instruction" id="text">
-            Memuat Objek 3D...
-        </div>
-    </div>
+<div class="cursor"></div>
 
-    <script type="module" src="script.js"></script>
+<nav>
+
+<div class="top-left">
+SETYOWIBOWO
+</div>
+
+<div class="top-right">
+INFINITE SPACES
+</div>
+
+<div class="bottom-left">
+THE MIND
+</div>
+
+<div class="bottom-right">
+CONNECT
+</div>
+
+</nav>
+
+<div class="hero">
+
+<div class="logo" id="logo">
+
+S
+
+</div>
+
+</div>
+
+<script src="js/script.js"></script>
 
 </body>
+
 </html>
