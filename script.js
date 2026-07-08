@@ -30,7 +30,7 @@ const loader = new GLTFLoader();
 let sLogo = null;
 
 // GANTI 'logo-s.glb' dengan nama file 3D Anda yang ditaruh di GitHub nanti
-loader.load('1_twisted_gerono.glb', (gltf) => {
+loader.load('infinity_loop.glb', (gltf) => {
     sLogo = gltf.scene;
     
     // Atur skala ukuran objek 3D Anda agar pas di layar
