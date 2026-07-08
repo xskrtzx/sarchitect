@@ -6,25 +6,17 @@
     <title>S Architect - 3D File Portal</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- Memuat Three.js Versi Stabil Tanpa Masalah CORS -->
+    <!-- Pustaka Inti Three.js dan Loader dari cdnjs Cloudflare -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cloudflare.com"></script>
-    
-    <!-- Memuat GLTFLoader Resmi dari CDN jsDelivr -->
-    <script src="https://jsdelivr.net"></script>
-    
-    <!-- Memuat GSAP untuk Efek Kamera Menembus Objek -->
     <script src="https://cloudflare.com"></script>
 </head>
 <body>
-
     <div id="canvas-container"></div>
-
     <div class="ui-layer">
-        <div id="portal-trigger" title="Klik Logo untuk Masuk"></div>
+        <div id="portal-trigger"></div>
         <div class="instruction" id="text">Klik Logo S untuk Masuk</div>
     </div>
-
-    <!-- Menghubungkan ke file Javascript Biasa (Bukan Tipe Modul Lagi) -->
     <script src="script.js"></script>
 </body>
 </html>
