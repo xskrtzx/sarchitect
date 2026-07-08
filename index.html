@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S Architect - 3D Modul Portal</title>
+    <title>S Architect - 3D File Portal</title>
+
     <link rel="stylesheet" href="style.css">
-    
-    <!-- GSAP tetap dimuat secara global karena sangat aman -->
-    <script src="https://cloudflare.com"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- Three.js -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.179.1/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.179.1/examples/jsm/"
+      }
+    }
+    </script>
 </head>
 <body>
 
@@ -15,11 +26,12 @@
 
     <div class="ui-layer">
         <div id="portal-trigger"></div>
-        <!-- Menambahkan teks status pemuatan untuk memantau jika file 3D Anda terlalu besar -->
-        <div class="instruction" id="text">Memuat Objek 3D...</div>
+        <div class="instruction" id="text">
+            Memuat Objek 3D...
+        </div>
     </div>
 
-    <!-- PENTING: Menambahkan type="module" agar browser mendukung fungsi import -->
     <script type="module" src="script.js"></script>
+
 </body>
 </html>
