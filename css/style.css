@@ -49,82 +49,90 @@ body, html {
     text-transform: uppercase;
     opacity: 0.5;
 }
-#corner-nav{
 
+
+/* ===============================
+   CORNER NAVIGATION
+================================ */
+
+#corner-nav{
     position:fixed;
     inset:0;
-
     pointer-events:none;
-
-    z-index:1000;
-
-    font-family:"Helvetica Neue",sans-serif;
-
-    letter-spacing:4px;
-
-    text-transform:uppercase;
-
-    font-size:11px;
-
+    opacity:0;
+    transition:1.5s ease;
+    z-index:2000;
 }
 
 .corner{
-
     position:absolute;
-
     color:white;
-
     text-decoration:none;
-
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:11px;
+    letter-spacing:6px;
+    font-weight:300;
     pointer-events:auto;
+    transition:.35s;
+    white-space:nowrap;
+    user-select:none;
+    mix-blend-mode:difference;
+}
 
-    transition:.4s;
-
-    opacity:.75;
-
+.corner span{
+    display:inline-block;
 }
 
 .corner:hover{
-
-    opacity:1;
-
-    letter-spacing:7px;
-
-    color:#00ffd5;
-
+    color:#00ffd0;
+    letter-spacing:9px;
+    transform:scale(1.04);
 }
 
 .top-left{
-
     top:40px;
     left:40px;
-
 }
 
 .top-right{
-
     top:40px;
     right:40px;
-
 }
 
 .bottom-left{
-
-    bottom:40px;
     left:40px;
-
+    bottom:40px;
 }
 
 .bottom-right{
-
-    bottom:40px;
     right:40px;
-
+    bottom:40px;
 }
-#corner-nav{
 
-    opacity:0;
+/* Responsive */
+@media(max-width:768px){
+    .corner{
+        font-size:9px;
+        letter-spacing:3px;
+    }
 
-    transition:1.5s;
+    .top-left,
+    .top-right{
+        top:20px;
+    }
 
+    .bottom-left,
+    .bottom-right{
+        bottom:20px;
+    }
+
+    .top-left,
+    .bottom-left{
+        left:20px;
+
+    }
+    .top-right,
+    .bottom-right{
+        right:20px;
+    }
 }
