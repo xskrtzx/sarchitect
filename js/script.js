@@ -67,8 +67,8 @@ scene.add(dir);
 // =======================
 
 const loader = new GLTFLoader();
-
 let sLogo = null;
+let logoSize = 1;
 let isTransitioning = false;
 
 loader.load(
@@ -86,15 +86,9 @@ loader.load(
         sLogo.position.sub(center);
 
         // Auto scale
-        const size = box.getSize(new THREE.Vector3()).length();
-
-        if (size > 0) {
-
-            const scale = 2 / size;
-
-            sLogo.scale.setScalar(scale);
-
-        }
+        logoSize = box.getSize(new THREE.Vector3()).length();
+        const scale = 2 / logoSize;
+        sLogo.scale.setScalar(scale);
 
         // Shadow
         sLogo.traverse((child) => {
@@ -109,12 +103,21 @@ loader.load(
         });
 
         scene.add(sLogo);
-
+        
+        sLogo.scale.setScalar(0);
+        gsap.to(sLogo.scale,{
+            x:2/logoSize,
+            y:2/logoSize,
+            z:2/logoSize,
+            duration:1.5,
+            ease:"back.out(2)"
+        });
+        
         statusText.innerHTML = "Klik Logo S untuk Masuk";
         gsap.to("#corner-nav",{
             opacity:1,
-            duration:1.5,
-            delay:0.5
+            duration:2,
+            ease:"power2.out"
         });
         console.log("GLB Loaded");
 
@@ -157,24 +160,80 @@ loader.load(
 const clock = new THREE.Clock();
 
 function animate() {
-
     requestAnimationFrame(animate);
-
     if (sLogo && !isTransitioning) {
-
         const t = clock.getElapsedTime();
-
-        sLogo.rotation.y = t * 0.5;
-
-        sLogo.rotation.x = Math.sin(t) * 0.08;
-
+        sLogo.rotation.y = t * 0.45;
+        sLogo.rotation.x = Math.sin(t * 0.8) * 0.08;
+        const breathe = 1 + Math.sin(t * 1.5) * 0.02;
+        sLogo.scale.setScalar((2 / logoSize) * breathe);
     }
-
     renderer.render(scene, camera);
-
 }
 
 animate();
+// =====================
+// Corner Animation
+// =====================
+
+const cornerAnimation = gsap.timeline({ repeat: -1 });
+
+cornerAnimation
+
+.to(".top-left",{
+    y:-5,
+    duration:3,
+    yoyo:true,
+    repeat:1,
+    ease:"sine.inOut"
+},0)
+
+.to(".top-right",{
+    x:8,
+    duration:5,
+    yoyo:true,
+    repeat:1,
+    ease:"sine.inOut"
+},0)
+
+.to(".bottom-right",{
+    opacity:.55,
+    duration:1.2,
+    yoyo:true,
+    repeat:1,
+    ease:"power1.inOut"
+},0);
+
+// =====================
+// THE MIND Glitch
+// =====================
+
+function glitchMind(){
+
+    gsap.timeline()
+
+    .to(".bottom-left",{
+        x:-3,
+        duration:0.03
+    })
+
+    .to(".bottom-left",{
+        x:4,
+        duration:0.03
+    })
+
+    .to(".bottom-left",{
+        x:0,
+        duration:0.03
+    });
+
+}
+
+setInterval(glitchMind,12000);
+
+
+
+
 
 // =======================
 // Portal Animation
@@ -189,7 +248,7 @@ trigger.addEventListener("click", () => {
     isTransitioning = true;
 
     statusText.style.opacity = 0;
-
+    cornerAnimation.pause();
     const tl = gsap.timeline({
 
         onComplete: () => {
@@ -260,9 +319,75 @@ trigger.addEventListener("click", () => {
 
         },
 
-        0
+        tl.to(
+
+    camera,
+
+    {
+
+        fov: 140,
+
+        duration: 2,
+
+        ease: "expo.in",
+
+        onUpdate() {
+
+            camera.updateProjectionMatrix();
+
+        }
+
+    },
+
+    0
+
+);
+
+// ===== Animasi sudut keluar layar =====
+
+tl.to(".top-left", {
+
+    x: -350,
+    y: -120,
+    opacity: 0,
+    duration: 2,
+    ease: "expo.in"
+
+}, 0);
+
+tl.to(".top-right", {
+
+    x: 350,
+    y: -120,
+    opacity: 0,
+    duration: 2,
+    ease: "expo.in"
+
+}, 0);
+
+tl.to(".bottom-left", {
+
+    x: -350,
+    y: 120,
+    opacity: 0,
+    duration: 2,
+    ease: "expo.in"
+
+}, 0);
+
+tl.to(".bottom-right", {
+
+    x: 350,
+    y: 120,
+    opacity: 0,
+    duration: 2,
+    ease: "expo.in"
+
+}, 0);0
 
     );
+
+    
 
 });
 
@@ -286,4 +411,13 @@ window.addEventListener("resize", () => {
         Math.min(window.devicePixelRatio, 2)
     );
 
+});
+
+document.querySelectorAll(".corner").forEach(item=>{
+    item.addEventListener("mouseenter",()=>{
+        document.body.style.cursor="pointer";
+    });
+    item.addEventListener("mouseleave",()=>{
+        document.body.style.cursor="default";
+    });
 });
