@@ -1,3 +1,7 @@
+// Mengimpor Three.js dan GLTFLoader secara resmi lewat skema ES Modul
+import * as THREE from 'https://skypack.dev';
+import { GLTFLoader } from 'https://skypack.dev';
+
 // 1. Setup Dasar Ruang 3D
 const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
@@ -11,7 +15,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 container.appendChild(renderer.domElement);
 
-// 2. Sistem Pencahayaan Merata
+// 2. Sistem Pencahayaan Studio Merata
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); 
 scene.add(ambientLight);
 
@@ -23,29 +27,42 @@ const frontDirectionalLight = new THREE.DirectionalLight(0x00ffcc, 1.5);
 frontDirectionalLight.position.set(5, 5, 5);
 scene.add(frontDirectionalLight);
 
-// 3. Memuat Berkas File 3D (.glb) - PERBAIKAN: Menggunakan GLTFLoader global langsung
+// 3. Memuat Berkas File 3D (.glb)
 const loader = new GLTFLoader();
 let sLogo = null;
+const statusText = document.getElementById('text');
 
-loader.load('logo-s.glb', (gltf) => {
-    sLogo = gltf.scene;
-    
-    // Memaksa file 3D berada di tengah & skala ukuran pas di layar
-    const box = new THREE.Box3().setFromObject(sLogo);
-    const size = box.getSize(new THREE.Vector3());
-    const center = box.getCenter(new THREE.Vector3());
-    
-    const maxDim = Math.max(size.x, size.y, size.z);
-    
-    sLogo.position.x += (sLogo.position.x - center.x);
-    sLogo.position.y += (sLogo.position.y - center.y);
-    sLogo.position.z += (sLogo.position.z - center.z);
-    
-    scene.add(sLogo);
-    console.log("File 3D sukses dimuat!");
-}, undefined, (error) => {
-    console.error('Gagal memuat file 3D, pastikan file logo-s.glb sudah diunggah:', error);
-});
+loader.load(
+    'logo-s.glb', 
+    (gltf) => {
+        sLogo = gltf.scene;
+        
+        // Menengahkan posisi objek secara otomatis di layar browser
+        const box = new THREE.Box3().setFromObject(sLogo);
+        const center = box.getCenter(new THREE.Vector3());
+        
+        sLogo.position.x += (sLogo.position.x - center.x);
+        sLogo.position.y += (sLogo.position.y - center.y);
+        sLogo.position.z += (sLogo.position.z - center.z);
+        
+        scene.add(sLogo);
+        
+        // Ubah teks instruksi setelah file 3D sukses terunduh sepenuhnya
+        statusText.innerText = "Klik Logo S untuk Masuk";
+        console.log("File 3D sukses dimuat!");
+    },
+    (xhr) => {
+        // Fungsi untuk melacak proses unduhan jika file Anda berukuran besar
+        if (xhr.total > 0) {
+            const percent = Math.round((xhr.loaded / xhr.total) * 100);
+            statusText.innerText = `Memuat: ${percent}%`;
+        }
+    }, 
+    (error) => {
+        statusText.innerText = "Gagal memuat file .glb";
+        console.error('Kendala berkas:', error);
+    }
+);
 
 // 4. Perputaran Alami Saat Diam (Idle Animation)
 let isTransitioning = false;
@@ -69,7 +86,7 @@ trigger.addEventListener('click', () => {
     if (!sLogo || isTransitioning) return;
     isTransitioning = true;
 
-    document.getElementById('text').style.opacity = '0';
+    statusText.style.opacity = '0';
 
     const tl = gsap.timeline({
         onComplete: () => {
