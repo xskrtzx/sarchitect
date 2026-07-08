@@ -1,56 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S Architect - 3D File Portal</title>
 
-<meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
 
-<title>S Architect</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <!-- Import Map Three.js -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.179.1/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.179.1/examples/jsm/"
+      }
+    }
+    </script>
 </head>
-
 <body>
 
-<div class="grid"></div>
+    <div id="canvas-container"></div>
 
-<div class="cursor"></div>
+    <div class="ui-layer">
+        <div id="portal-trigger"></div>
+        <div class="instruction" id="text">
+            Memuat Objek 3D...
+        </div>
+    </div>
 
-<nav>
-
-<div class="top-left">
-SETYOWIBOWO
-</div>
-
-<div class="top-right">
-INFINITE SPACES
-</div>
-
-<div class="bottom-left">
-THE MIND
-</div>
-
-<div class="bottom-right">
-CONNECT
-</div>
-
-</nav>
-
-<div class="hero">
-
-<div class="logo" id="logo">
-
-<img src="assets/slogo.svg" alt="Deskripsi Gambar" width="200" height="200">
-
-</div>
-
-</div>
-
-<script src="js/script.js"></script>
+    <script type="module" src="script.js"></script>
 
 </body>
-
 </html>
