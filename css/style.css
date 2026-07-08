@@ -1,314 +1,128 @@
+/* ================= 1. BASE SETUP & CORNER NAV ================= */
 body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #0a0a0a; /* Warna latar belakang gelap */
-    font-family: 'Segoe UI', sans-serif;
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    overflow: hidden; background-color: #0a0a0a;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: background-color 1s ease;
 }
 
 #canvas-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
+    width: 100%; height: 100%; position: absolute;
+    top: 0; left: 0; z-index: 1;
 }
 
 .ui-layer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    pointer-events: none; /* Klik akan menembus ke tombol di bawah */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    position: absolute; width: 100%; height: 100%;
+    top: 0; left: 0; z-index: 2; pointer-events: none;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
 }
 
 #portal-trigger {
-    width: 280px;
-    height: 280px;
-    cursor: pointer;
-    pointer-events: auto; /* Tombol ini yang menangkap klik user */
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.01);
+    width: 280px; height: 280px; cursor: pointer;
+    pointer-events: auto; border-radius: 50%;
 }
 
 .instruction {
-    position: absolute;
-    bottom: 10%;
-    color: #ffffff;
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    opacity: 0.5;
+    position: absolute; bottom: 10%; color: #ffffff;
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.5;
 }
 
-
-/* ===============================
-   CORNER NAVIGATION
-================================ */
-
-#corner-nav{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:0;
-    transition:1.5s ease;
-    z-index:2000;
+/* Menu Navigasi Sudut Arsitektural */
+#corner-nav {
+    position: fixed; width: 100%; height: 100%;
+    top: 0; left: 0; z-index: 10; pointer-events: none;
 }
 
-.corner{
-    position:absolute;
-    color:white;
-    text-decoration:none;
-    font-family:Helvetica,Arial,sans-serif;
-    font-size:11px;
-    letter-spacing:6px;
-    font-weight:300;
-    pointer-events:auto;
-    transition:.35s;
-    white-space:nowrap;
-    user-select:none;
-    mix-blend-mode:difference;
+#corner-nav a {
+    position: absolute; pointer-events: auto; text-decoration: none;
+    color: rgba(255, 255, 255, 0.4); font-size: 10px; letter-spacing: 3px;
+    transition: color 0.3s, transform 0.3s; padding: 30px;
 }
 
-.corner span{
-    display:inline-block;
-}
+#corner-nav a:hover { color: #00ffcc; }
+.top-left { top: 0; left: 0; }
+.top-right { top: 0; right: 0; }
+.bottom-left { bottom: 0; left: 0; }
+.bottom-right { bottom: 0; right: 0; }
 
-.corner:hover{
-    color:#00ffd0;
-    letter-spacing:9px;
-    transform:scale(1.04);
-}
-
-.top-left{
-    top:40px;
-    left:40px;
-}
-
-.top-right{
-    top:40px;
-    right:40px;
-}
-
-.bottom-left{
-    left:40px;
-    bottom:40px;
-}
-
-.bottom-right{
-    right:40px;
-    bottom:40px;
-}
-
-/* Responsive */
-@media(max-width:768px){
-    .corner{
-        font-size:9px;
-        letter-spacing:3px;
-    }
-
-    .top-left,
-    .top-right{
-        top:20px;
-    }
-
-    .bottom-left,
-    .bottom-right{
-        bottom:20px;
-    }
-
-    .top-left,
-    .bottom-left{
-        left:20px;
-
-    }
-    .top-right,
-    .bottom-right{
-        right:20px;
-    }
-}
-
-/* Pengaturan Utama Transisi Antar Halaman */
+/* ================= 2. CONTROLLING TRANSITION (KORREKSI UTAMA) ================= */
 .page-section {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #f5f5f5; /* Latar belakang terang arsitektural */
-    transition: opacity 1s ease-in-out;
-    z-index: 5;
-}
-/* Pengaturan Utama Transisi Antar Halaman */
-.page-section {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #f5f5f5; /* Latar belakang terang arsitektural */
-    transition: opacity 1s ease-in-out;
-    z-index: 5;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden; background-color: #f5f5f5; opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1); z-index: 5;
 }
 
-/* PERBAIKAN: Memaksa halaman langsung sembunyi total saat web dibuka */
+/* Mengunci elemen agar mutlak tersembunyi dan tidak bocor di awal */
 .hidden-section {
     display: none !important;
     opacity: 0 !important;
-    pointer-events: none;
+    pointer-events: none !important;
 }
 
+.active-section {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
 
-/* ================= CSS PORTOFOLIO HORIZONTAL ================= */
+/* ================= 3. BAGIAN 2: CSS PORTOFOLIO HORIZONTAL ================= */
 .blueprint-coordinates {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    width: 100%;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 11px;
-    color: rgba(0, 0, 0, 0.3);
-    white-space: nowrap;
-    overflow: hidden;
-    letter-spacing: 2px;
+    position: absolute; top: 80px; left: 0; width: 100%;
+    font-family: 'Courier New', monospace; font-size: 11px;
+    color: rgba(0, 0, 0, 0.2); white-space: nowrap; overflow: hidden; letter-spacing: 2px;
 }
 
 .horizontal-track {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding-left: 10%;
-    padding-right: 20%;
-    gap: 150px;
-    cursor: grab;
-    will-change: transform;
+    display: flex; align-items: center; height: 100%;
+    padding-left: 15%; padding-right: 25%; gap: 180px;
+    cursor: grab; will-change: transform;
 }
 
-/* Potongan Bidang Asimetris (Pecahan Dinding) */
-.project-card {
-    flex-shrink: 0;
-    width: 400px;
-    position: relative;
-    will-change: transform;
-    transition: transform 0.1s ease-out;
-}
-
-.image-wrapper {
-    width: 100%;
-    overflow: hidden;
-    background-color: #ddd;
-}
+.project-card { flex-shrink: 0; width: 420px; position: relative; will-change: transform; }
+.image-wrapper { width: 100%; overflow: hidden; background-color: #e0e0e0; }
 
 .project-card img {
-    width: 100%;
-    height: 550px;
-    object-fit: cover;
-    filter: grayscale(100%);
-    transition: filter 0.5s ease;
+    width: 100%; height: 530px; object-fit: cover;
+    filter: grayscale(100%); transition: filter 0.6s ease;
 }
+.project-card:hover img { filter: grayscale(0%); }
 
-.project-card:hover img {
-    filter: grayscale(0%);
-}
+/* Kliping Potongan Dinding Pasca-Modern */
+.skew-layout-1 .image-wrapper { clip-path: polygon(0 8%, 100% 0, 92% 100%, 0% 94%); }
+.skew-layout-2 .image-wrapper { clip-path: polygon(8% 0, 100% 4%, 100% 92%, 0 100%); }
+.skew-layout-3 .image-wrapper { clip-path: polygon(0 0, 100% 12%, 88% 100%, 12% 88%); }
 
-/* Variasi Kliping Pecahan Dinding Asimetris */
-.skew-layout-1 .image-wrapper { clip-path: polygon(0 10%, 100% 0, 90% 100%, 0% 95%); }
-.skew-layout-2 .image-wrapper { clip-path: polygon(10% 0, 100% 5%, 100% 90%, 0 100%); }
-.skew-layout-3 .image-wrapper { clip-path: polygon(0 0, 100% 15%, 85% 100%, 15% 90%); }
+.project-meta { margin-top: 20px; }
+.project-meta h3 { font-size: 13px; letter-spacing: 2px; color: #111; margin: 0; }
+.project-meta p { font-size: 11px; color: #666; margin: 5px 0 0 0; }
 
-.project-meta {
-    margin-top: 20px;
-    font-family: 'Segoe UI', sans-serif;
-}
-.project-meta h3 { font-size: 14px; letter-spacing: 2px; color: #111; margin: 0; }
-.project-meta p { font-size: 12px; color: #666; margin: 5px 0 0 0; }
-
-/* ================= CSS PROFIL & FILOSOFI ================= */
+/* ================= 4. BAGIAN 3: CSS PROFIL / FILOSOFI ================= */
 .giant-s-bg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 95vh;
-    font-weight: 900;
-    color: rgba(0, 0, 0, 0.03); /* Opacity 3-5% raksasa */
-    line-height: 1;
-    user-select: none;
-    z-index: 1;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 95vh; font-weight: 900; color: rgba(0, 0, 0, 0.03);
+    line-height: 1; user-select: none; z-index: 1;
 }
 
-/* Garis Sketsa Bergerak Bergerak */
 .wireframe-grid-bg {
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
+    position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
     background-image: 
-        linear-gradient(to right, rgba(0, 255, 204, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 255, 204, 0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: 2;
-    transform: rotate(-5deg);
-    animation: gridMove 20s linear infinite;
+        linear-gradient(to right, rgba(0, 255, 204, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 204, 0.05) 1px, transparent 1px);
+    background-size: 45px 45px; z-index: 2; transform: rotate(-4deg);
+    animation: gridMove 25s linear infinite;
 }
-
 @keyframes gridMove {
-    0% { transform: translate(0, 0) rotate(-5deg); }
-    100% { transform: translate(40px, 40px) rotate(-5deg); }
+    0% { transform: translate(0, 0) rotate(-4deg); }
+    100% { transform: translate(45px, 45px) rotate(-4deg); }
 }
 
-/* Teks Vertikal di Lekukan Huruf S */
 .scrollable-philosophy {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 500px;
-    height: 100%;
-    overflow-y: scroll;
-    z-index: 3;
-    padding-top: 30vh;
-    padding-bottom: 30vh;
+    position: absolute; left: 50%; transform: translateX(-50%);
+    width: 520px; height: 100%; overflow-y: scroll; z-index: 3;
+    padding-top: 35vh; padding-bottom: 35vh;
 }
-
-/* Menyembunyikan Scrollbar default browser agar bersih */
 .scrollable-philosophy::-webkit-scrollbar { display: none; }
-
-.philosophy-content {
-    font-family: 'Segoe UI', sans-serif;
-    color: #222;
-}
-
-.philosophy-content h2 {
-    font-size: 13px;
-    letter-spacing: 5px;
-    color: #00b386; /* Warna aksen cetak biru */
-    margin-top: 100px;
-    margin-bottom: 20px;
-}
-
-.philosophy-content p {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #444;
-    margin-bottom: 40px;
-    text-align: justify;
-}
-
-.philosophy-content .highlight-text {
-    font-size: 20px;
-    line-height: 1.6;
-    color: #111;
-    font-weight: 300;
-}
+.philosophy-content { color: #222; }
+.philosophy-content h2 { font-size: 12px; letter-spacing: 5px; color: #00b386; margin-top: 90px; margin-bottom: 20px; }
+.philosophy-content p { font-size: 15px; line-height: 1.8; color: #444; margin-bottom: 40px; text-align: justify; }
+.philosophy-content .highlight-text { font-size: 21px; line-height: 1.6; color: #111; font-weight: 300; }
