@@ -26,7 +26,7 @@ const loader = new GLTFLoader();
 let sLogo = null;
 const statusText = document.getElementById('text');
 
-loader.load('logo-s.glb', (gltf) => {
+loader.load('assets/logo-s.glb', (gltf) => {
     sLogo = gltf.scene;
     const box = new THREE.Box3().setFromObject(sLogo);
     const center = box.getCenter(new THREE.Vector3());
