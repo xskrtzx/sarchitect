@@ -57,31 +57,63 @@ function animate() {
 }
 animate();
 
-// 3. Efek Transisi Portal Kamera (Klik Menembus Objek)
-const trigger = document.getElementById('portal-trigger');
-trigger.addEventListener('click', () => {
-    if (!sLogo || isTransitioning) return;
-    isTransitioning = true;
+// Portal Animation (Perbaikan Efek Kamera & Skala)
+const trigger = document.getElementById("portal-trigger");
+if (trigger) {
+    trigger.addEventListener("click", () => {
+        if (!sLogo || isTransitioning) return;
+        isTransitioning = true;
+        statusText.style.opacity = 0;
+        cornerAnimation.pause();
+        
+        const tl = gsap.timeline({
+            onComplete: () => {
+                scene.background = new THREE.Color(0xf5f5f5);
+                alert("Selamat datang di S Architect");
+            }
+        });
+        
+        // 1. Logo berputar sangat cepat
+        tl.to(sLogo.rotation, {
+            y: Math.PI * 6, // Ditambah putarannya agar efek spin lebih terasa
+            x: 0,
+            duration: 2,
+            ease: "power3.inOut"
+        }, 0);
+        
+        // 2. MODIFIKASI: Logo mengecil ke 0 saat kamera mendekat (Mencegah tabrakan poligon)
+        tl.to(sLogo.scale, {
+            x: 0,
+            y: 0,
+            z: 0,
+            duration: 1.8,
+            ease: "power2.in"
+        }, 0);
+        
+        // 3. Kamera maju mendekati titik tengah (stop di z: 0.5 agar tidak menembus background)
+        tl.to(camera.position, {
+            z: 0.5,
+            duration: 2,
+            ease: "power3.in"
+        }, 0);
+        
+        // 4. MODIFIKASI: FOV dinaikkan secara wajar (Maksimal 100 agar tidak terlalu hancur/distorsi)
+        tl.to(camera, {
+            fov: 100,
+            duration: 2,
+            ease: "power3.in",
+            onUpdate() {
+                camera.updateProjectionMatrix();
+            }
+        }, 0);
 
-    statusText.style.opacity = '0';
-    // Ubah warna menu sudut menjadi gelap karena latar belakang akan berubah terang
-    document.querySelectorAll('#corner-nav a').forEach(a => a.style.color = 'rgba(0,0,0,0.4)');
-
-    const tl = gsap.timeline({
-        onComplete: () => {
-            // Matikan visual render 3D agar performa hemat
-            container.style.display = 'none';
-            document.querySelector('.ui-layer').style.display = 'none';
-            
-            // Tampilkan Bagian 2 (Portofolio) secara halus
-            switchPage('portfolio-section');
-        }
+        // ===== Animasi sudut keluar layar =====
+        tl.to(".top-left", { x: -350, y: -120, opacity: 0, duration: 2, ease: "expo.in" }, 0);
+        tl.to(".top-right", { x: 350, y: -120, opacity: 0, duration: 2, ease: "expo.in" }, 0);
+        tl.to(".bottom-left", { x: -350, y: 120, opacity: 0, duration: 2, ease: "expo.in" }, 0);
+        tl.to(".bottom-right", { x: 350, y: 120, opacity: 0, duration: 2, ease: "expo.in" }, 0);
     });
-
-    tl.to(sLogo.rotation, { x: 0, y: Math.PI * 4, duration: 1.8, ease: "power2.inOut" }, 0);
-    tl.to(camera.position, { z: -1, duration: 1.8, ease: "expo.in" }, 0);
-    tl.to(camera, { fov: 140, duration: 1.8, ease: "expo.in", onUpdate: () => camera.updateProjectionMatrix() }, 0);
-});
+}
 
 // 4. Manajemen Perpindahan Halaman Aplikasi Tunggal (SPA)
 function switchPage(targetId) {
