@@ -6,30 +6,25 @@
     <title>S Architect - 3D File Portal</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- Importmap agar browser mengenali modul Three.js dan GLTF Loader -->
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://unpkg.com",
-          "three/addons/": "https://unpkg.com"
-        }
-      }
-    </script>
-    <!-- GSAP untuk animasi kamera menembus objek -->
-    <script src="https://unpkg.com"></script>
+    <!-- Memuat Three.js Versi Stabil Tanpa Masalah CORS -->
+    <script src="https://cloudflare.com"></script>
+    
+    <!-- Memuat GLTFLoader Resmi dari CDN jsDelivr -->
+    <script src="https://jsdelivr.net"></script>
+    
+    <!-- Memuat GSAP untuk Efek Kamera Menembus Objek -->
+    <script src="https://cloudflare.com"></script>
 </head>
 <body>
 
-    <!-- Wadah untuk menampilkan Render 3D -->
     <div id="canvas-container"></div>
 
-    <!-- Area transparan di tengah layar untuk menangkap klik user -->
     <div class="ui-layer">
         <div id="portal-trigger" title="Klik Logo untuk Masuk"></div>
         <div class="instruction" id="text">Klik Logo S untuk Masuk</div>
     </div>
 
-    <!-- Hubungkan ke file Javascript Modul -->
-    <script type="module" src="script.js"></script>
+    <!-- Menghubungkan ke file Javascript Biasa (Bukan Tipe Modul Lagi) -->
+    <script src="script.js"></script>
 </body>
 </html>
