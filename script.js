@@ -1,4 +1,4 @@
-// 1. Setup Dasar Ruang 3D (Menggunakan objek global THREE)
+// 1. Setup Dasar Ruang 3D
 const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0a0a0a); 
@@ -23,11 +23,11 @@ const frontDirectionalLight = new THREE.DirectionalLight(0x00ffcc, 1.5);
 frontDirectionalLight.position.set(5, 5, 5);
 scene.add(frontDirectionalLight);
 
-// 3. Memuat Berkas File 3D (.glb) menggunakan THREE.GLTFLoader global
-const loader = new THREE.GLTFLoader();
+// 3. Memuat Berkas File 3D (.glb) - PERBAIKAN: Menggunakan GLTFLoader global langsung
+const loader = new GLTFLoader();
 let sLogo = null;
 
-loader.load('infinity_loop.glb', (gltf) => {
+loader.load('logo-s.glb', (gltf) => {
     sLogo = gltf.scene;
     
     // Memaksa file 3D berada di tengah & skala ukuran pas di layar
@@ -36,16 +36,15 @@ loader.load('infinity_loop.glb', (gltf) => {
     const center = box.getCenter(new THREE.Vector3());
     
     const maxDim = Math.max(size.x, size.y, size.z);
-    const fov = camera.fov * (Math.PI / 180);
     
     sLogo.position.x += (sLogo.position.x - center.x);
     sLogo.position.y += (sLogo.position.y - center.y);
     sLogo.position.z += (sLogo.position.z - center.z);
     
     scene.add(sLogo);
-    console.log("File 3D sukses dimuat tanpa hambatan CORS!");
+    console.log("File 3D sukses dimuat!");
 }, undefined, (error) => {
-    console.error('Gagal memuat file 3D:', error);
+    console.error('Gagal memuat file 3D, pastikan file logo-s.glb sudah diunggah:', error);
 });
 
 // 4. Perputaran Alami Saat Diam (Idle Animation)
@@ -64,7 +63,7 @@ function animate() {
 }
 animate();
 
-// 5. Animasi Transisi Tembus Masuk Portal Menggunakan GSAP global
+// 5. Animasi Transisi Tembus Masuk Portal
 const trigger = document.getElementById('portal-trigger');
 trigger.addEventListener('click', () => {
     if (!sLogo || isTransitioning) return;
