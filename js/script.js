@@ -1,6 +1,101 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+
+// Tambahkan variabel navigasi di bagian paling atas file script.js
+let currentX = 0;
+let targetX = 0;
+let isDragging = false;
+let startX = 0;
+
+// Cari bagian fungsi klik `trigger.addEventListener('click', ...)` 
+// GANTI properti `onComplete` di dalam timeline GSAP Anda dengan struktur berikut ini:
+
+    const tl = gsap.timeline({
+        onComplete: () => {
+            // 1. Matikan tampilan Canvas 3D awal agar hemat memori komputer
+            document.getElementById('canvas-container').style.display = 'none';
+            document.querySelector('.ui-layer').style.display = 'none';
+            
+            // 2. Munculkan Bagian 2 (Portofolio)
+            const portfolio = document.getElementById('portfolio-section');
+            portfolio.classList.remove('hidden-section');
+            
+            // Inisialisasi Fitur Interaktif Tambahan setelah transisi sukses
+            initPortfolioMechanics();
+        }
+    });
+
+// ================= LOGIKA NAVIGASI HORIZONTAL & PARALAKS ASIMETRIS =================
+function initPortfolioMechanics() {
+    const track = document.getElementById('track');
+    const cards = document.querySelectorAll('.project-card');
+    const ticker = document.getElementById('coord-ticker');
+    
+    // Ticker Koordinat Bergerak Loop di Latar Belakang
+    setInterval(() => {
+        let text = ticker.innerText;
+        ticker.innerText = text.substring(1) + text.substring(0, 1);
+    }, 50);
+
+    // Navigasi Menggunakan Geser Mouse (Horizontal Drag)
+    window.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX - currentX;
+        track.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) {
+            // EFEK PARALAKS MOUSE DIAGONAL (Saat cursor digerakkan tanpa drag)
+            const mouseX = (e.clientX / window.innerWidth) - 0.5;
+            const mouseY = (e.clientY / window.innerHeight) - 0.5;
+            
+            cards.forEach(card => {
+                const speed = parseFloat(card.getAttribute('data-speed'));
+                // Menggeser bidang foto secara asimetris berdasarkan kecepatan elemen masing-masing
+                gsap.to(card, {
+                    x: currentX + (mouseX * speed * 800),
+                    y: mouseY * speed * 400,
+                    rotation: mouseX * speed * 15,
+                    duration: 0.5,
+                    ease: "power1.out"
+                });
+            });
+            return;
+        }
+        
+        // Eksekusi Translasi Sumbu Track saat melakukan Dragging
+        targetX = e.clientX - startX;
+        // Batasi geseran agar track tidak hilang keluar batas layar luar
+        targetX = Math.min(0, Math.max(targetX, -1200)); 
+        currentX = targetX;
+        
+        gsap.to(track, {
+            x: currentX,
+            duration: 0.6,
+            ease: "power2.out"
+        });
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDragging = false;
+        track.style.cursor = 'grab';
+    });
+
+    // AKSES LOGIKA MENUJU BAGIAN 3 (OTOMATIS TERBUKA JIKA TRACK DI-DRAG SAMPAI UJUNG KANAN)
+    window.addEventListener('mousemove', () => {
+        if (currentX <= -1150) {
+            // Jika geseran sudah mentok kanan, munculkan halaman profil arsitektur
+            document.getElementById('portfolio-section').classList.add('hidden-section');
+            document.getElementById('profile-section').classList.remove('hidden-section');
+        }
+    });
+}
+
+
+
+
 // Scene
 const container = document.getElementById('canvas-container');
 const statusText = document.getElementById('text');
