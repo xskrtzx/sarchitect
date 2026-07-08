@@ -1,196 +1,52 @@
 *{
-
 margin:0;
 padding:0;
 box-sizing:border-box;
-
 }
 
 body{
-
 overflow:hidden;
-
 background:#050505;
-
-font-family:Arial,Helvetica,sans-serif;
-
-height:100vh;
-
 cursor:none;
-
-color:white;
-
+font-family:Arial,sans-serif;
 }
 
-
-/* GRID */
-
-.grid{
-
+#scene{
 position:fixed;
-
-width:100%;
-
-height:100%;
-
-background-image:
-
-linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-
-linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-
-background-size:50px 50px;
-
-z-index:-1;
-
+inset:0;
 }
-
-/* NAV */
 
 nav div{
-
 position:fixed;
-
+color:white;
 letter-spacing:8px;
-
 font-size:12px;
-
-opacity:.65;
-
-transition:.4s;
-
+z-index:20;
 }
 
-nav div:hover{
+.tl{top:40px;left:40px;}
+.tr{top:40px;right:40px;}
+.bl{bottom:40px;left:40px;}
+.br{bottom:40px;right:40px;}
 
-opacity:1;
-
-color:#C7FF00;
-
+#blueprint{
+position:fixed;
+top:50%;
+right:30px;
+transform:translateY(-50%);
+background:none;
+border:1px solid #fff;
+padding:12px 20px;
+color:white;
+z-index:20;
 }
-
-.top-left{
-
-top:40px;
-left:40px;
-
-}
-
-.top-right{
-
-top:40px;
-right:40px;
-
-}
-
-.bottom-left{
-
-bottom:40px;
-left:40px;
-
-}
-
-.bottom-right{
-
-bottom:40px;
-right:40px;
-
-}
-
-/* HERO */
-
-.hero{
-
-width:100%;
-
-height:100vh;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-}
-
-/* LOGO */
-
-.logo{
-
-font-size:260px;
-
-font-weight:900;
-
-color:#FFF;
-
-text-shadow:
-
-0 0 30px rgba(255,255,255,.2);
-
-transition:.15s;
-
-user-select:none;
-
-transform-style:preserve-3d;
-
-}
-
-/* CURSOR */
 
 .cursor{
-
-width:22px;
-
-height:22px;
-
-border:1px solid #C7FF00;
-
+width:20px;
+height:20px;
+border:1px solid #c7ff00;
 position:fixed;
-
 pointer-events:none;
-
+z-index:999;
 transform:translate(-50%,-50%);
-
-z-index:9999;
-
-}
-
-.cursor:before{
-
-content:"";
-
-position:absolute;
-
-left:50%;
-
-top:-8px;
-
-width:1px;
-
-height:36px;
-
-background:#C7FF00;
-
-transform:translateX(-50%);
-
-}
-
-.cursor:after{
-
-content:"";
-
-position:absolute;
-
-top:50%;
-
-left:-8px;
-
-width:36px;
-
-height:1px;
-
-background:#C7FF00;
-
-transform:translateY(-50%);
-
 }
