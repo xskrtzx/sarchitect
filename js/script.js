@@ -13,16 +13,11 @@ let startX = 0;
 
     const tl = gsap.timeline({
         onComplete: () => {
-            // 1. Matikan tampilan Canvas 3D awal agar hemat memori komputer
-            document.getElementById('canvas-container').style.display = 'none';
-            document.querySelector('.ui-layer').style.display = 'none';
+           // Mengubah latar belakang menjadi putih sesaat untuk efek flash portal
+            scene.background = new THREE.Color(0xf5f5f5);
             
-            // 2. Munculkan Bagian 2 (Portofolio)
-            const portfolio = document.getElementById('portfolio-section');
-            portfolio.classList.remove('hidden-section');
-            
-            // Inisialisasi Fitur Interaktif Tambahan setelah transisi sukses
-            initPortfolioMechanics();
+            // OTOMATIS BERPINDAH KE FILE PORTFOLIO.HTML
+            window.location.href = "portfolio.html";
         }
     });
 
