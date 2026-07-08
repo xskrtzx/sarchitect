@@ -73,7 +73,7 @@ let isTransitioning = false;
 
 loader.load(
 
-    "logo-s.glb",
+    "assets/logo-s.glb",
 
     (gltf) => {
 
