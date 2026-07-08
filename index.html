@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S Architect - 3D File Portal</title>
+    <title>S Architect - 3D Modul Portal</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- Pustaka Inti Three.js dan Loader dari cdnjs Cloudflare -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cloudflare.com"></script>
+    <!-- GSAP tetap dimuat secara global karena sangat aman -->
     <script src="https://cloudflare.com"></script>
 </head>
 <body>
+
     <div id="canvas-container"></div>
+
     <div class="ui-layer">
         <div id="portal-trigger"></div>
-        <div class="instruction" id="text">Klik Logo S untuk Masuk</div>
+        <!-- Menambahkan teks status pemuatan untuk memantau jika file 3D Anda terlalu besar -->
+        <div class="instruction" id="text">Memuat Objek 3D...</div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- PENTING: Menambahkan type="module" agar browser mendukung fungsi import -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
